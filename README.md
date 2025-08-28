@@ -1,18 +1,8 @@
-# Secure Coding Exam Lab
-Tidak untuk diunggah pada production server, kecuali Anda mengerti risiko yang ditimbulkan.
+## Hasil Scanning SonarQube
 
-# Build and Run
+(images/Screenshot%202025-08-28%20111317.png)
 
-```
-> docker compose up -d --build
-```
+(images/Screenshot%202025-08-28%20111337.png)
 
-Kunjungi http://localhost:8080 via web browser
+(images/image_2025-08-28_11-08-45.png)
 
-
-# Instruksi
-
-1. Eksploitasi setiap celah keamanan yang ada.
-3. Analisis dan dokumentasikan hasil eksploitasi.
-4. Perbaiki kode.
-5. Buktikan perbaikan Anda berhasil.
