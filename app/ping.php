@@ -10,7 +10,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -38,9 +39,10 @@ if (isset($_GET['target'])) {
             $escapedTarget = escapeshellarg($target);
             $output = shell_exec("ping -c 2 " . $escapedTarget);
             
-            echo "<h3>Ping Result for: " . 
-                 htmlspecialchars($target, ENT_QUOTES, 'UTF-8') . "</h3>";
-            echo "<pre>" . htmlspecialchars($output, ENT_QUOTES, 'UTF-8') . "</pre>";
+            $targetEscaped = htmlspecialchars($target, ENT_QUOTES, 'UTF-8');
+            $outputEscaped = htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+            echo "<h3>Ping Result for: $targetEscaped</h3>";
+            echo "<pre>$outputEscaped</pre>";
         } else {
             echo "<p style='color:red'>Invalid hostname or IP address.</p>";
         }

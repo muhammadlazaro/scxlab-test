@@ -10,7 +10,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -36,14 +37,16 @@ if (isset($_GET['q'])) {
         $articles = $stmt->fetchAll();
         
         $queryText = "SELECT * FROM articles WHERE title LIKE '%$q%'";
-        echo "<p>Query: " . htmlspecialchars($queryText, ENT_QUOTES, 'UTF-8') . "</p>";
+        $queryEscaped = htmlspecialchars($queryText, ENT_QUOTES, 'UTF-8');
+        echo "<p>Query: $queryEscaped</p>";
         
         if (empty($articles)) {
             echo "<p>No articles found.</p>";
         } else {
             foreach ($articles as $row) {
-                echo "<li>" . htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8') . 
-                     ": " . htmlspecialchars($row['body'], ENT_QUOTES, 'UTF-8') . "</li>";
+                $titleEscaped = htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8');
+                $bodyEscaped = htmlspecialchars($row['body'], ENT_QUOTES, 'UTF-8');
+                echo "<li>$titleEscaped: $bodyEscaped</li>";
             }
         }
     }

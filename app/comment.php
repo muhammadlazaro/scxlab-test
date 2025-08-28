@@ -11,7 +11,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -31,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content'] ?? '');
     
     // ✅ input validation
-    if ($author !== '' && $content !== '' 
-        && preg_match('/^[a-zA-Z0-9\s\-_\.]+$/', $author) 
-        && strlen($author) <= 50 && strlen($content) <= 500
-    ) {
+    $authorValid = preg_match('/^[a-zA-Z0-9\s\-_\.]+$/', $author);
+    $lengthValid = strlen($author) <= 50 && strlen($content) <= 500;
+    
+    if ($author !== '' && $content !== '' && $authorValid && $lengthValid) {
         // ✅ use prepared statement
         $stmt = $GLOBALS['PDO']->prepare(
             "INSERT INTO comments(author,content,created_at) VALUES(?,?,datetime('now'))"
@@ -51,8 +52,9 @@ $stmt->execute();
 $comments = $stmt->fetchAll();
 
 foreach ($comments as $row) {
-    echo "<p><b>" . htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8') . 
-         "</b>: " . htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8') . "</p>";
+    $authorEscaped = htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8');
+    $contentEscaped = htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8');
+    echo "<p><b>$authorEscaped</b>: $contentEscaped</p>";
 }
 ?>
 <?php require_once '_footer.php'; ?>

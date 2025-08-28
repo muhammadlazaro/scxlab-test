@@ -10,7 +10,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -29,8 +30,9 @@ $factor = isset($_GET['factor']) ? (int)$_GET['factor'] : 1;
 // ✅ input validation and safe division
 if ($factor > 0 && $factor <= 1000) {
     $result = 100 / $factor; 
-    echo "<p>100 / " . htmlspecialchars($factor, ENT_QUOTES, 'UTF-8') . 
-         " = " . htmlspecialchars($result, ENT_QUOTES, 'UTF-8') . "</p>";
+    $factorEscaped = htmlspecialchars($factor, ENT_QUOTES, 'UTF-8');
+    $resultEscaped = htmlspecialchars($result, ENT_QUOTES, 'UTF-8');
+    echo "<p>100 / $factorEscaped = $resultEscaped</p>";
 } else {
     echo "<p style='color:red'>Please enter a valid divisor between 1 and 1000.</p>";
 }

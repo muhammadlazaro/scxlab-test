@@ -10,7 +10,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -26,7 +27,8 @@ require_once 'auth.php';
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   Release: 1.0.0
  * @link      https://github.com/username/scxlab
  */
 class Profile
@@ -64,8 +66,8 @@ class Profile
      */
     public function __toString(): string
     {
-        return "User: {$this->username}, Role: " . 
-               ($this->isAdmin ? "Admin" : "User");
+        $role = $this->isAdmin ? "Admin" : "User";
+        return "User: {$this->username}, Role: $role";
     }
 }
 
@@ -116,7 +118,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>Login</h2>
 
 <?php if (!empty($error)) : ?>
-    <p style="color:red"><?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
+    <p style="color:red"><?php 
+        echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); 
+    ?></p>
 <?php endif; ?>
 
 <form method="post">

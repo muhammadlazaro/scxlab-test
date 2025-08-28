@@ -10,7 +10,8 @@
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   GIT: $Id$
  * @link      https://github.com/username/scxlab
  */
 
@@ -26,7 +27,8 @@ require_once 'auth.php';
  * @author    Muham <muham@example.com>
  * @copyright 2024 Muham
  * @license   https://opensource.org/licenses/MIT MIT License
- * @version   1.0.0
+ * @since     PHP 7.4
+ * @version   Release: 1.0.0
  * @link      https://github.com/username/scxlab
  */
 class Profile
@@ -52,8 +54,8 @@ class Profile
      */
     public function __toString(): string
     {
-        return "User: {$this->username}, Role: " . 
-               ($this->isAdmin ? "Admin" : "User");
+        $role = $this->isAdmin ? "Admin" : "User";
+        return "User: {$this->username}, Role: $role";
     }
 }
 
@@ -80,18 +82,18 @@ if ($profile->isAdmin && isset($_POST['delete_user'])) {
     $target = trim($_POST['delete_user']);
     
     // ✅ input validation
-    if (preg_match('/^[a-zA-Z0-9_]+$/', $target) 
-        && $target !== $profile->username
-    ) {
+    $targetValid = preg_match('/^[a-zA-Z0-9_]+$/', $target);
+    $notSelf = $target !== $profile->username;
+    
+    if ($targetValid && $notSelf) {
         $stmt = $GLOBALS['PDO']->prepare(
             "DELETE FROM users WHERE username = :target"
         );
         $stmt->execute([':target' => $target]);
         
         if ($stmt->rowCount() > 0) {
-            $msg = "<p style='color:green'>User <b>" . 
-                   htmlspecialchars($target, ENT_QUOTES, 'UTF-8') . 
-                   "</b> berhasil dihapus!</p>";
+            $targetEscaped = htmlspecialchars($target, ENT_QUOTES, 'UTF-8');
+            $msg = "<p style='color:green'>User <b>$targetEscaped</b> berhasil dihapus!</p>";
         } else {
             $msg = "<p style='color:red'>User tidak ditemukan atau gagal dihapus.</p>";
         }
@@ -103,7 +105,9 @@ if ($profile->isAdmin && isset($_POST['delete_user'])) {
 require_once '_header.php';
 ?>
 <h2>Profile Page</h2>
-<p><?php echo htmlspecialchars($profile->__toString(), ENT_QUOTES, 'UTF-8'); ?></p>
+<p><?php 
+    echo htmlspecialchars($profile->__toString(), ENT_QUOTES, 'UTF-8'); 
+?></p>
 
 <?php if ($profile->isAdmin) : ?>
     <h3>Admin Panel</h3>
@@ -119,10 +123,8 @@ require_once '_header.php';
                 $users = $stmt->fetchAll();
                 
                 foreach ($users as $u) {
-                    echo "<option value='" . 
-                         htmlspecialchars($u['username'], ENT_QUOTES, 'UTF-8') . 
-                         "'>" . htmlspecialchars($u['username'], ENT_QUOTES, 'UTF-8') . 
-                         "</option>";
+                    $usernameEscaped = htmlspecialchars($u['username'], ENT_QUOTES, 'UTF-8');
+                    echo "<option value='$usernameEscaped'>$usernameEscaped</option>";
                 }
                 ?>
             </select>
