@@ -1,0 +1,23 @@
+name: My Pipeline       # Nama workflow di tab Actions
+
+on:                     # Trigger kapan workflow dijalankan
+  push:                 # Saat ada push ke branch "main"
+    branches: [ "main" ]
+  pull_request:         # Saat ada PR ke branch "main"
+    branches: [ "main" ]
+
+jobs:                   # Definisi job yang dijalankan
+  php-cs:               # Nama job = php-cs
+    runs-on: ubuntu-latest  # Runner pakai Ubuntu terbaru
+    steps:              # Langkah-langkah di job ini
+      - name: Checkout the repo
+        uses: actions/checkout@v3    # Checkout source code dari repo
+
+      - name: PHP Setup
+        uses: shivammathur/setup-php@v2  # Setup environment PHP
+        with:
+          php-version: '8.2'        # Versi PHP = 8.2
+          tools: phpcs              # Install PHP_CodeSniffer
+
+      - name: Run phpcs
+        run: phpcs --report-source --report-full .  # Jalankan phpcs cek semua file
