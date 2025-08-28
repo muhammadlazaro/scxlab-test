@@ -6,10 +6,13 @@
  * Provides a form for users to submit comments and displays
  * existing comments in reverse chronological order.
  *
- * @package    SCXLab
- * @author     Your Name
- * @copyright  2024
- * @license    MIT
+ * @category  Content
+ * @package   SCXLab
+ * @author    Muham <muham@example.com>
+ * @copyright 2024 Muham
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.0
+ * @link      https://github.com/username/scxlab
  */
 
 require_once 'auth.php';
@@ -28,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content'] ?? '');
     
     // ✅ input validation
-    if ($author !== '' && $content !== '' && 
-        preg_match('/^[a-zA-Z0-9\s\-_\.]+$/', $author) && 
-        strlen($author) <= 50 && strlen($content) <= 500) {
-        
+    if ($author !== '' && $content !== '' 
+        && preg_match('/^[a-zA-Z0-9\s\-_\.]+$/', $author) 
+        && strlen($author) <= 50 && strlen($content) <= 500
+    ) {
         // ✅ use prepared statement
         $stmt = $GLOBALS['PDO']->prepare(
             "INSERT INTO comments(author,content,created_at) VALUES(?,?,datetime('now'))"
@@ -48,8 +51,8 @@ $stmt->execute();
 $comments = $stmt->fetchAll();
 
 foreach ($comments as $row) {
-    echo "<p><b>" . htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8') . "</b>: " . 
-         htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8') . "</p>";
+    echo "<p><b>" . htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8') . 
+         "</b>: " . htmlspecialchars($row['content'], ENT_QUOTES, 'UTF-8') . "</p>";
 }
 ?>
 <?php require_once '_footer.php'; ?>

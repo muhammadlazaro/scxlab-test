@@ -5,10 +5,13 @@
  * This file provides a search interface for wiki articles.
  * Allows users to search through article titles and content.
  *
- * @package    SCXLab
- * @author     Your Name
- * @copyright  2024
- * @license    MIT
+ * @category  Content
+ * @package   SCXLab
+ * @author    Muham <muham@example.com>
+ * @copyright 2024 Muham
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.0
+ * @link      https://github.com/username/scxlab
  */
 
 require_once 'auth.php';
@@ -26,18 +29,21 @@ if (isset($_GET['q'])) {
     // ✅ input validation
     if ($q !== '' && strlen($q) <= 100) {
         // ✅ use prepared statement
-        $stmt = $GLOBALS['PDO']->prepare("SELECT * FROM articles WHERE title LIKE :q");
+        $stmt = $GLOBALS['PDO']->prepare(
+            "SELECT * FROM articles WHERE title LIKE :q"
+        );
         $stmt->execute([':q' => '%' . $q . '%']);
         $articles = $stmt->fetchAll();
         
-        echo "<p>Query: " . htmlspecialchars("SELECT * FROM articles WHERE title LIKE '%$q%'", ENT_QUOTES, 'UTF-8') . "</p>";
+        $queryText = "SELECT * FROM articles WHERE title LIKE '%$q%'";
+        echo "<p>Query: " . htmlspecialchars($queryText, ENT_QUOTES, 'UTF-8') . "</p>";
         
         if (empty($articles)) {
             echo "<p>No articles found.</p>";
         } else {
             foreach ($articles as $row) {
-                echo "<li>" . htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8') . ": " . 
-                     htmlspecialchars($row['body'], ENT_QUOTES, 'UTF-8') . "</li>";
+                echo "<li>" . htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8') . 
+                     ": " . htmlspecialchars($row['body'], ENT_QUOTES, 'UTF-8') . "</li>";
             }
         }
     }

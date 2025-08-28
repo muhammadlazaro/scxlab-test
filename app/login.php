@@ -5,10 +5,13 @@
  * This script handles user authentication securely using prepared statements,
  * password hashing, and safer session/cookie handling.
  *
- * @package    SCXLab
- * @author     Your Name
- * @copyright  2024
- * @license    MIT
+ * @category  Security
+ * @package   SCXLab
+ * @author    Muham <muham@example.com>
+ * @copyright 2024 Muham
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.0
+ * @link      https://github.com/username/scxlab
  */
 
 require_once 'auth.php';
@@ -18,10 +21,13 @@ require_once 'auth.php';
  *
  * Represents user profile data and role.
  *
- * @package    SCXLab
- * @author     Your Name
- * @copyright  2024
- * @license    MIT
+ * @category  Security
+ * @package   SCXLab
+ * @author    Muham <muham@example.com>
+ * @copyright 2024 Muham
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.0
+ * @link      https://github.com/username/scxlab
  */
 class Profile
 {
@@ -42,8 +48,8 @@ class Profile
     /**
      * Profile constructor.
      *
-     * @param string $u        Username
-     * @param bool   $isAdmin  Admin status
+     * @param string $u       Username
+     * @param bool   $isAdmin Admin status
      */
     public function __construct(string $u, bool $isAdmin = false)
     {
@@ -58,7 +64,8 @@ class Profile
      */
     public function __toString(): string
     {
-        return "User: {$this->username}, Role: " . ($this->isAdmin ? "Admin" : "User");
+        return "User: {$this->username}, Role: " . 
+               ($this->isAdmin ? "Admin" : "User");
     }
 }
 
@@ -69,7 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($u !== '' && $p !== '') {
         // ✅ use prepared statements
-        $stmt = $GLOBALS['PDO']->prepare("SELECT * FROM users WHERE username = :u LIMIT 1");
+        $stmt = $GLOBALS['PDO']->prepare(
+            "SELECT * FROM users WHERE username = :u LIMIT 1"
+        );
         $stmt->execute([':u' => $u]);
         $row = $stmt->fetch();
 

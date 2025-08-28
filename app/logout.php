@@ -5,10 +5,13 @@
  * This file handles user logout by destroying the session
  * and redirecting to the login page.
  *
- * @package    SCXLab
- * @author     Your Name
- * @copyright  2024
- * @license    MIT
+ * @category  Security
+ * @package   SCXLab
+ * @author    Muham <muham@example.com>
+ * @copyright 2024 Muham
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @version   1.0.0
+ * @link      https://github.com/username/scxlab
  */
 
 session_start();
